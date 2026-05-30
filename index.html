@@ -572,20 +572,6 @@ img{max-width:100%;display:block}
         <span data-i18n="hero.cta2">WhatsApp</span>
       </a>
     </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span class="counter" data-target="150">0</span>+</div>
-        <div class="hero-stat-label" data-i18n="hero.stat1">Transpòtè</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span class="counter" data-target="10">0</span>+</div>
-        <div class="hero-stat-label" data-i18n="hero.stat2">Ane Eksperyans</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span class="counter" data-target="10">0</span></div>
-        <div class="hero-stat-label" data-i18n="hero.stat3">Depatman</div>
-      </div>
-    </div>
   </div>
   <!-- Decorative globe SVG -->
   <div class="hero-geo">
@@ -1140,31 +1126,11 @@ document.getElementById('menuClose').addEventListener('click', () => mm.classLis
 mm.addEventListener('click', e => { if (e.target === mm) mm.classList.remove('open'); });
 mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
 
-/* ═══ COUNTER ═══ */
-function animateCounters() {
-  document.querySelectorAll('.counter').forEach(el => {
-    if (el.dataset.done) return;
-    const target = parseInt(el.dataset.target);
-    const duration = 1800;
-    const start = performance.now();
-    function tick(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.round(target * eased);
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    el.dataset.done = '1';
-    requestAnimationFrame(tick);
-  });
-}
-
 /* ═══ SCROLL REVEAL ═══ */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
-      if (e.target.closest('.hero-stats') || e.target.querySelector('.counter')) animateCounters();
       observer.unobserve(e.target);
     }
   });
@@ -1179,12 +1145,6 @@ setTimeout(() => {
   }, {threshold: 0});
   waObs.observe(document.querySelector('.hero'));
 }, 500);
-
-/* ═══ COUNTER on hero visible ═══ */
-const heroObs = new IntersectionObserver(([e]) => {
-  if (e.isIntersecting) { animateCounters(); heroObs.disconnect(); }
-}, {threshold: 0.3});
-heroObs.observe(document.querySelector('.hero-stats'));
 
 /* ═══ FORM → WHATSAPP ═══ */
 document.getElementById('quoteForm').addEventListener('submit', function(e) {
